@@ -1,0 +1,17 @@
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script:
+    - echo "Build step"
+    - docker-compose -f docker-compose.yml build
+
+deploy:
+  stage: deploy
+  tags:
+    - deploy
+  script:
+    - ssh -o StrictHostKeyChecking=no user@your-server-ip "cd /home/user/project && git pull && docker-compose down && docker-compose up -d --build"
+
